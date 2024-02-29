@@ -43,7 +43,7 @@ const organizations = res_org.data;
       width="150"
       height="150"
     />
-    <h1 class="profile_name">{data.name}</h1>
+    <h1 class="profile_name">Matias Sio Cordich</h1>
     <h3 class="profile_githubname">{data.login}</h3>
     <div class="links">
       <a aria-label="github-icon-link" href={data.html_url} target="_blank">
@@ -65,10 +65,20 @@ const organizations = res_org.data;
     </div>
   </div>
   <div class="line"></div>
+
   <div class="card_container-2">
-    <p>{data.bio}</p>
-    <p>{data.location}</p>
+    <section>
+      <h3>About</h3>
+      <p>{data.bio}</p>
+    </section>
+
+    <section>
+      <h3>Location</h3>
+      <p>{data.location}</p>
+    </section>
+
     <ul class="organizations">
+      <h3>Organizations</h3>
       {
         organizations.map(async (org: any) => {
           const orgDetailsUrl = org.url;
@@ -85,40 +95,45 @@ const organizations = res_org.data;
             <li>
               <div class="org_details">
                 <Image
-                loading="eager"
-                src={orgDetails.avatar_url}
-                alt="organization-avat-ed45d"
-                width="40"
-                height="40"
-              />
-              <p>{orgDetails.name}</p>
-              <a href={orgDetails.blog} target="_blank">Site</a>
-            </div>
+                  loading="eager"
+                  src={orgDetails.avatar_url}
+                  alt="organization-avat-ed45d"
+                  width="40"
+                  height="40"
+                />
+                <p>{orgDetails.name}</p>
+                <a href={orgDetails.blog} target="_blank">
+                  Site
+                </a>
+              </div>
             </li>
           );
         })
       }
     </ul>
-    <a href="mailto:m.scordich@gmail.com" class="btn_contact">
-      <Icon name="messageicon" size={20} />
-      Contact me
-    </a>
+    <section class="contact_section">
+      <a href="mailto:m.scordich@gmail.com" class="btn_contact">
+        <Icon name="messageicon" size={20} />
+        Contact me
+      </a>
+    </section>
   </div>
 </div>
 <!-- STYLE -->
 
 <style>
   .card {
-    width: fit-content;
-    background-color: #0c0c0c;
-    border: 3px solid #379b6c;
-    border-radius: 0.3rem;
+    background-color: var(--white);
+    border: 3px solid var(--grey);
+    border-radius: 0.9rem;
     padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 3rem;
     width: 95%;
+    height: 100%;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
   }
 
   /* ------------- CARD CONTAINER 1 -------------   */
@@ -127,29 +142,25 @@ const organizations = res_org.data;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
   }
 
   .profile_name,
   .profile_githubname {
     width: 95%;
-    color: #379b6c;
+    color: var(--black);
     text-align: left;
   }
 
   .profile_name {
-    background: linear-gradient(90deg, #379b6c 0%, #41b883 49%, #93edc7 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-size: 3rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    
+    font-size: 3.5rem;
+    font-weight: 700;
   }
 
   .profile_githubname {
-    font-weight: 400;
+    font-weight: 600;
     font-size: 1.6rem;
+    font-family: var(--s-font);
   }
 
   .links {
@@ -162,54 +173,61 @@ const organizations = res_org.data;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background-color: #379b6c;
+    background-color: var(--blue);
     font-size: 1.5rem;
     font-weight: 900;
     padding: 1rem;
     border-radius: 0.4rem;
-    color: #fafafa;
+    color: var(--white);
     font-family: var(--s-font);
   }
+
   .profile_card {
     padding: 0.3rem;
     border-radius: 50%;
-    border: 3px solid #379b6c;
+    border: 3px solid var(--blue);
   }
 
   .line {
-    border-top: 2px dotted #379b6c;
+    border-top: 2px dotted var(--blue);
     width: 100%;
     height: 0.2rem;
   }
 
   /* ------------- CARD CONTAINER 2 -------------   */
 
-  .card_container-2{
+  .card_container-2 {
     display: flex;
     flex-direction: column;
     gap: 2rem;
   }
   .card_container-2 p {
-    color: #379b6c;
+    color: var(--black);
     font-size: 1.5rem;
     line-height: 4rem;
     font-weight: 600;
     font-family: var(--s-font);
   }
 
-  .organizations{
+  .organizations {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
   }
 
-  .org_details{
+  .org_details {
     display: flex;
     gap: 1rem;
   }
 
-  .btn_contact{
+  .btn_contact {
     width: fit-content;
+  }
+
+  .contact_section {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
   }
 
   /* ------------- MEDIA QUERIES -------------   */
@@ -221,9 +239,9 @@ const organizations = res_org.data;
 
     .line {
       border-top: none;
-      border-left: 2px dotted #379b6c;
-      width: 0.2rem;
-      height: 100%;
+      border-left: 2px dotted var(--blue);
+      width: .2rem;
+      height: 35rem;
     }
   }
 </style>
