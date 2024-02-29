@@ -1,0 +1,141 @@
+---
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import axios from "axios";
+
+const token = import.meta.env.SECRET_API;
+const url = "https://api.github.com/user";
+
+const res = await axios.get(url, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/vnd.github.v3+json",
+  },
+});
+
+const data = res.data;
+
+console.log(data);
+---
+
+<!-- HTML -->
+<div class="card">
+  <div class="card_container-1">
+    <Image
+      loading="eager"
+      class="profile_card"
+      src={data.avatar_url}
+      alt="github-profile"
+      width="150"
+      height="150"
+    />
+    <h1 class="profile_name">{data.name}</h1>
+    <h3 class="profile_githubname">{data.login}</h3>
+    <div class="links">
+      <a
+        aria-label="github-icon-link"
+        href="https://github.com/MatiasCordich"
+        target="_blank"
+      >
+        <Icon name="githubicon" size={20} />
+        Github
+      </a>
+      <a
+        aria-label="github-icon-link"
+        href="https://github.com/MatiasCordich"
+        target="_blank"
+      >
+        <Icon name="linkedinicon" size={20} />
+        Linkedin
+      </a>
+      <a
+        aria-label="github-icon-link"
+        href="https://github.com/MatiasCordich"
+        target="_blank"
+      >
+        <Icon name="portfolioicon" size={20} />
+        Portfolio
+      </a>
+    </div>
+  </div>
+  <div class="line"></div>
+</div>
+<!-- STYLE -->
+
+<style>
+  .card {
+    width: fit-content%;
+    background-color: #0c0c0c;
+    border: 1px solid #379b6c;
+    border-radius: 0.3rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .card_container-1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .profile_name,
+  .profile_githubname {
+    width: 95%;
+    color: #379b6c;
+    text-align: left;
+  }
+
+  .profile_name {
+    font-size: 3rem;
+    font-weight: 600;
+  }
+
+  .profile_githubname {
+    font-weight: 400;
+    font-size: 1.6rem;
+  }
+
+  .links {
+    display: flex;
+    gap: 0.3rem;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #379b6c;
+    font-size: 1.2rem;
+    font-weight: 900;
+    padding: 0.5rem;
+    border-radius: 0.2rem;
+    color: #fafafa;
+    font-family: var(--s-font);
+  }
+  .profile_card {
+    padding: 0.3rem;
+    border-radius: 50%;
+    border: 3px solid #379b6c;
+  }
+
+  .line {
+    border-top: 2px dotted #379b6c;
+    height: 0.2rem;
+  }
+
+  @media (min-width: 900px) {
+      .card{
+        flex-direction: row;
+      }
+
+      .line{
+        border-top: none;
+        border-left: 2px dotted #379b6c;
+        height: 100%;
+      }
+  }
+</style>
