@@ -3,9 +3,11 @@ import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 import axios from "axios";
 
+// Variables para la llamada a la API
 const token = import.meta.env.SECRET_API;
 const url = "https://api.github.com/user";
 
+// Obtener la info de mi usario de Github
 const res = await axios.get(url, {
   headers: {
     Authorization: `Bearer ${token}`,
@@ -16,6 +18,20 @@ const res = await axios.get(url, {
 const data = res.data;
 
 console.log(data);
+
+// Obtener las organizaciones
+
+const url_org = data.organizations_url;
+
+const res_org = await axios.get(url_org, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
+
+const organizations = res_org.data;
+
+// Obtener las info de las organizaciones
 ---
 
 <!-- HTML -->
@@ -32,48 +48,78 @@ console.log(data);
     <h1 class="profile_name">{data.name}</h1>
     <h3 class="profile_githubname">{data.login}</h3>
     <div class="links">
-      <a
-        aria-label="github-icon-link"
-        href="https://github.com/MatiasCordich"
-        target="_blank"
-      >
+      <a aria-label="github-icon-link" href={data.html_url} target="_blank">
         <Icon name="githubicon" size={20} />
         Github
       </a>
       <a
-        aria-label="github-icon-link"
+        aria-label="linkein-icon-link"
         href="https://github.com/MatiasCordich"
         target="_blank"
       >
         <Icon name="linkedinicon" size={20} />
         Linkedin
       </a>
-      <a
-        aria-label="github-icon-link"
-        href="https://github.com/MatiasCordich"
-        target="_blank"
-      >
+      <a aria-label="portfolio-icon-link" href={data.blog} target="_blank">
         <Icon name="portfolioicon" size={20} />
         Portfolio
       </a>
     </div>
   </div>
   <div class="line"></div>
+  <div class="card_container-2">
+    <p>{data.bio}</p>
+    <p>{data.location}</p>
+    <ul class="organizations">
+      {
+        organizations.map(async (org: any) => {
+          const orgDetailsUrl = org.url;
+
+          const orgDetailsResponse = await axios.get(orgDetailsUrl, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const orgDetails = orgDetailsResponse.data;
+
+          return (
+            <li>
+              <div class="org_details">
+                <Image
+                loading="eager"
+                src={orgDetails.avatar_url}
+                alt="organization-avat-ed45d"
+                width="40"
+                height="40"
+              />
+              <p>{orgDetails.name}</p>
+              <a href={orgDetails.blog} target="_blank">Site</a>
+            </div>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
 </div>
 <!-- STYLE -->
 
 <style>
   .card {
-    width: fit-content%;
+    width: fit-content;
     background-color: #0c0c0c;
-    border: 1px solid #379b6c;
+    border: 3px solid #379b6c;
     border-radius: 0.3rem;
     padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 3rem;
+    width: 95%;
   }
+
+  /* ------------- CARD CONTAINER 1 -------------   */
 
   .card_container-1 {
     display: flex;
@@ -90,8 +136,13 @@ console.log(data);
   }
 
   .profile_name {
+    background: linear-gradient(90deg, #379b6c 0%, #41b883 49%, #93edc7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-size: 3rem;
-    font-weight: 600;
+    font-weight: 800;
+    text-transform: uppercase;
+    
   }
 
   .profile_githubname {
@@ -101,7 +152,8 @@ console.log(data);
 
   .links {
     display: flex;
-    gap: 0.3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 
   a {
@@ -109,10 +161,10 @@ console.log(data);
     align-items: center;
     gap: 0.5rem;
     background-color: #379b6c;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 900;
-    padding: 0.5rem;
-    border-radius: 0.2rem;
+    padding: 1rem;
+    border-radius: 0.4rem;
     color: #fafafa;
     font-family: var(--s-font);
   }
@@ -124,18 +176,48 @@ console.log(data);
 
   .line {
     border-top: 2px dotted #379b6c;
+    width: 100%;
     height: 0.2rem;
   }
 
-  @media (min-width: 900px) {
-      .card{
-        flex-direction: row;
-      }
+  /* ------------- CARD CONTAINER 2 -------------   */
 
-      .line{
-        border-top: none;
-        border-left: 2px dotted #379b6c;
-        height: 100%;
-      }
+  .card_container-2{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .card_container-2 p {
+    color: #379b6c;
+    font-size: 1.5rem;
+    line-height: 4rem;
+    font-weight: 600;
+    font-family: var(--s-font);
+  }
+
+  .organizations{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .org_details{
+    display: flex;
+    gap: 1rem;
+  }
+
+  /* ------------- MEDIA QUERIES -------------   */
+
+  @media (min-width: 900px) {
+    .card {
+      flex-direction: row;
+    }
+
+    .line {
+      border-top: none;
+      border-left: 2px dotted #379b6c;
+      width: 0.2rem;
+      height: 100%;
+    }
   }
 </style>
