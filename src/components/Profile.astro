@@ -17,8 +17,6 @@ const res = await axios.get(url, {
 
 const data = res.data;
 
-console.log(data);
-
 // Obtener las organizaciones
 
 const url_org = data.organizations_url;
@@ -54,7 +52,7 @@ const organizations = res_org.data;
       </a>
       <a
         aria-label="linkein-icon-link"
-        href="https://github.com/MatiasCordich"
+        href="https://www.linkedin.com/in/matiassiocordich/"
         target="_blank"
       >
         <Icon name="linkedinicon" size={20} />
@@ -101,6 +99,10 @@ const organizations = res_org.data;
         })
       }
     </ul>
+    <a href="mailto:m.scordich@gmail.com" class="btn_contact">
+      <Icon name="messageicon" size={20} />
+      Contact me
+    </a>
   </div>
 </div>
 <!-- STYLE -->
@@ -204,6 +206,10 @@ const organizations = res_org.data;
   .org_details{
     display: flex;
     gap: 1rem;
+  }
+
+  .btn_contact{
+    width: fit-content;
   }
 
   /* ------------- MEDIA QUERIES -------------   */
